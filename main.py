@@ -1,17 +1,14 @@
-import os
+import pathlib
 
 # the most useless power wins
-LINE = "The power to know exactly when a meeting could have been an email \u2014 but only after it ends."
+LINE = "The power to know exactly when a meeting could have been an email — but only after it ends."
 
 
-def main():
-    os.makedirs("/output", exist_ok=True)
-    fd = os.open("/output/entry.txt", os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o644)
-    try:
-        os.write(fd, LINE.encode("utf-8"))
-    finally:
-        os.close(fd)
+def write_entry():
+    out_path = pathlib.Path("/output/entry.txt")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = LINE.encode("utf-8")
+    out_path.write_bytes(payload)
 
 
-if __name__ == "__main__":
-    main()
+write_entry()
